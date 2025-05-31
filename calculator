@@ -1,0 +1,57 @@
+import java.util.Scanner;
+
+@FunctionalInterface
+interface Calculator {
+    double operate(double a, double b);
+}
+
+public class LambdaCalculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Lambda expressions for operations
+        Calculator add = (a, b) -> a + b;
+        Calculator subtract = (a, b) -> a - b;
+        Calculator multiply = (a, b) -> a * b;
+        Calculator divide = (a, b) -> {
+            if (b == 0) throw new ArithmeticException("Cannot divide by zero");
+            return a / b;
+        };
+
+        // User input
+        System.out.print("Enter first number: ");
+        double num1 = scanner.nextDouble();
+
+        System.out.print("Enter second number: ");
+        double num2 = scanner.nextDouble();
+
+        System.out.print("Enter operation (+, -, *, /): ");
+        char operation = scanner.next().charAt(0);
+
+        double result;
+        try {
+            switch (operation) {
+                case '+':
+                    result = add.operate(num1, num2);
+                    break;
+                case '-':
+                    result = subtract.operate(num1, num2);
+                    break;
+                case '*':
+                    result = multiply.operate(num1, num2);
+                    break;
+                case '/':
+                    result = divide.operate(num1, num2);
+                    break;
+                default:
+                    System.out.println("Invalid operation.");
+                    return;
+            }
+            System.out.println("Result: " + result);
+        } catch (ArithmeticException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        scanner.close();
+    }
+}
